@@ -1,5 +1,11 @@
+setwd("~/Dropbox/PAPERS/projects/brownian")
+source("~/Dropbox/PAPERS/projects/brownian/helper functions classical.R")
 
-M <- 25
+pckgs<-c("moments","MASS","pscl","mnormt")
+
+lapply(pckgs,require,character.only=T)
+
+M <- 1000
 seed <- 1234
 
 # Step 1: Generate M datasets
@@ -57,7 +63,7 @@ for (prior in prior_configs) {
      
      for (m in 1:M) {
           # Get the true values for this dataset (use log-prices as true values)
-          true_values <- log(sim_datasets[[m]]$price)
+          true_values <- log(sim_datasets[[m]]$price)[-1]
           
           # Generate predictions for this dataset
           preds <- generate_gbm_predictions(th = mu_list[[m]], sig2 = sig_list[[m]], y0 = true_values[1], nsteps = 252)
